@@ -3,11 +3,18 @@
   <groupId>org.infinispan.tutorial</groupId>
   <artifactId>infinispan-remote-tutorial</artifactId>
   <version>7.0.0-SNAPSHOT</version>
-  
+
   <name>Infinispan Tutorial: Remote tutorial</name>
 
   <properties>
      <version.org.infinispan>7.0.0.Final</version.org.infinispan>
+     <version.org.arquillian>1.1.5.Final</version.org.arquillian>
+     <version.org.wildfly>8.1.0.Final</version.org.wildfly>
+     <version.org.infinispan.arquillian.container>1.2.0.Alpha2</version.org.infinispan.arquillian.container>
+     <version.junit>4.11</version.junit>
+
+     <url.infinispan.server>http://downloads.jboss.org/infinispan/${version.org.infinispan}/infinispan-server-${version.org.infinispan}-bin.zip</url.infinispan.server>
+     <server1.dist>${basedir}/target/server1/infinispan-server-${version.org.infinispan}</server1.dist>
   </properties>
 
   <dependencies>
@@ -16,9 +23,46 @@
         <artifactId>infinispan-remote</artifactId>
         <version>${version.org.infinispan}</version>
      </dependency>
+
+     <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${version.junit}</version>
+        <scope>test</scope>
+     </dependency>
+     <dependency>
+        <groupId>org.jboss.arquillian.core</groupId>
+        <artifactId>arquillian-core-api</artifactId>
+        <version>${version.org.arquillian}</version>
+        <scope>test</scope>
+     </dependency>
+     <dependency>
+        <groupId>org.jboss.arquillian.junit</groupId>
+        <artifactId>arquillian-junit-container</artifactId>
+        <version>${version.org.arquillian}</version>
+        <scope>test</scope>
+     </dependency>
+     <dependency>
+        <groupId>org.wildfly</groupId>
+        <artifactId>wildfly-arquillian-container-managed</artifactId>
+        <version>${version.org.wildfly}</version>
+        <scope>test</scope>
+     </dependency>
+     <dependency>
+        <groupId>org.infinispan.arquillian.container</groupId>
+        <artifactId>infinispan-arquillian-impl</artifactId>
+        <version>${version.org.infinispan.arquillian.container}</version>
+        <scope>test</scope>
+     </dependency>
   </dependencies>
 
   <build>
+     <testResources>
+        <testResource>
+           <directory>${project.basedir}/src/test/resources</directory>
+           <filtering>true</filtering>
+        </testResource>
+     </testResources>
      <plugins>
         <plugin>
            <groupId>org.apache.maven.plugins</groupId>
@@ -51,6 +95,59 @@
                </systemProperties>
             </configuration>
          </plugin>
+
+        <plugin>
+           <groupId>org.apache.maven.plugins</groupId>
+           <artifactId>maven-antrun-plugin</artifactId>
+           <version>1.6</version>
+           <executions>
+              <execution>
+                 <id>prepare</id>
+                 <phase>validate</phase>
+                 <configuration>
+                    <target>
+                       <echo message="Prepare Infinispan Server" />
+                       <mkdir dir="zips"/>
+                       <get src="${url.infinispan.server}"
+                            dest="zips/infinispan-server-${version.org.infinispan}.zip"
+                            skipexisting="true"/>
+                       <unzip src="zips/infinispan-server-${version.org.infinispan}.zip" dest="target/server1" />
+                    </target>
+                 </configuration>
+                 <goals>
+                    <goal>run</goal>
+                 </goals>
+              </execution>
+           </executions>
+        </plugin>
+        <plugin>
+           <groupId>org.apache.maven.plugins</groupId>
+           <artifactId>maven-failsafe-plugin</artifactId>
+           <version>2.17</version>
+           <configuration>
+              <forkCount>1</forkCount>
+              <failIfNoTests>false</failIfNoTests>
+              <systemPropertyVariables>
+                 <server1.dist>${server1.dist}</server1.dist>
+              </systemPropertyVariables>
+           </configuration>
+           <executions>
+              <execution>
+                 <id>suite-default</id>
+                 <goals>
+                    <goal>integration-test</goal>
+                 </goals>
+                 <configuration>
+                    <systemPropertyVariables>
+                       <arquillian.launch>tutorial-default</arquillian.launch>
+                    </systemPropertyVariables>
+                    <includes>
+                       <include>**/local/*IT.java</include>
+                    </includes>
+                 </configuration>
+              </execution>
+           </executions>
+        </plugin>
       </plugins>
    </build>
 </project>

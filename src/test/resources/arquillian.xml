@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<arquillian xmlns="http://www.jboss.org/arquillian-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://www.jboss.org/arquillian-1.0 http://www.jboss.org/schema/arquillian/arquillian_1_0.xsd">
+
+   <!--
+     To debug any server execution, add these JVM arguments to the desired container configuration:
+     -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8787,suspend=y
+   -->
+
+   <group qualifier="tutorial-default">
+      <container qualifier="container-default" mode="suite">
+         <configuration>
+            <property name="jbossHome">${server1.dist}</property>
+            <property name="managementPort">9990</property>
+            <property name="serverConfig">standalone.xml</property>
+            <property name="javaVmArguments">-Djava.net.preferIPv4Stack=true -Djboss.node.name=node1</property>
+         </configuration>
+      </container>
+   </group>
+
+</arquillian>

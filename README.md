@@ -41,12 +41,28 @@ To see the changes between any two lessons use the git diff command.
  - Start server running `bin/standalone.sh` or `bin/standalone.bat`
  - Run `mvn compile exec:java` to execute the application 
 
+### step-1/remote-cache-reading-writing
+
+- Automate downloading and unzipping of Infinispan Server via Maven
+- Automate starting and stopping Infinispan Server using Arquillian
+- Create a test where the Infinispan Server details are injected
+- Connect to the Infinispan Server and obtain the default cache
+- Store an entry into the remote cache
+- Retrieve an entry from the remote cache
+- Print the entry and assert that it contains the expected value
+- Execute `mvn verify -Dit.test=RemoteIT` to verify remote cache 
+reads and writes as expected
+ - You can run this section and all other integration tests by calling `mvn verify`
+ 
 ## Application Directory Layout
 
     src/                -->
       main/             -->
         java/           -->
         resources/      -->
+      test/             --> test code root directory
+        java/           --> java test classes root directory
+        resources/      --> test resources, e.g. arquillian configuration file
 
 ## Contact
 
