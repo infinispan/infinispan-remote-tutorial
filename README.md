@@ -54,6 +54,12 @@ To see the changes between any two lessons use the git diff command.
 reads and writes as expected
  - You can run this section and all other integration tests by calling `mvn verify`
  
+### step-2/remote-expiration
+
+- Storing entries which expire
+- Execute `mvn verify -Dit.test=RemoteIT` to verify expiration works 
+(`mvn verify` to run all integration tests)
+
 ## Application Directory Layout
 
     src/                -->
