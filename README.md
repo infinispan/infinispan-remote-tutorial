@@ -67,6 +67,12 @@ using the remote concurrent APIs
 - Execute `mvn verify -Dit.test=RemoteConcurrencyIT` to verify that the 
 concurrent APIs work as expected (`mvn verify` to run all integration tests)
 
+### step-4/remote-listeners
+
+- Receive events in the client when entries in the cache change
+- Execute `mvn verify -Dit.test=RemoteListenerIT` to see remote events in action 
+(`mvn verify` to run all integration tests)
+
 ## Application Directory Layout
 
     src/                -->
