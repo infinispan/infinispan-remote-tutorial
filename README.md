@@ -60,6 +60,13 @@ reads and writes as expected
 - Execute `mvn verify -Dit.test=RemoteIT` to verify expiration works 
 (`mvn verify` to run all integration tests)
 
+### step-3/remote-concurrency
+
+- Demonstrates how to keep a counter consistent with concurrent modifications
+using the remote concurrent APIs
+- Execute `mvn verify -Dit.test=RemoteConcurrencyIT` to verify that the 
+concurrent APIs work as expected (`mvn verify` to run all integration tests)
+
 ## Application Directory Layout
 
     src/                -->
