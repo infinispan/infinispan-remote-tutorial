@@ -80,6 +80,12 @@ concurrent APIs work as expected (`mvn verify` to run all integration tests)
 - Execute `mvn verify -Dit.test=RemoteListenerFilterIT` to see filtered remote events in action 
 (`mvn verify` to run all integration tests)
 
+### step-6/remote-custom-events-listeners
+
+- Receive custom events in the client which include value as well as key
+- Execute `mvn verify -Dit.test=RemoteListenerCustomIT` to see custom remote events in action 
+(`mvn verify` to run all integration tests)
+
 ## Application Directory Layout
 
     src/                -->
