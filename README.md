@@ -73,6 +73,13 @@ concurrent APIs work as expected (`mvn verify` to run all integration tests)
 - Execute `mvn verify -Dit.test=RemoteListenerIT` to see remote events in action 
 (`mvn verify` to run all integration tests)
 
+### step-5/remote-filter-listeners
+
+- Receive events in the client only for filtered keys
+- Core dependency added to implement cache event filter SPI
+- Execute `mvn verify -Dit.test=RemoteListenerFilterIT` to see filtered remote events in action 
+(`mvn verify` to run all integration tests)
+
 ## Application Directory Layout
 
     src/                -->

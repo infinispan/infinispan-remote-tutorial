@@ -23,6 +23,13 @@
         <artifactId>infinispan-remote</artifactId>
         <version>${version.org.infinispan}</version>
      </dependency>
+     <!-- Core dependency required for writing SPI implementations -->
+     <dependency>
+        <groupId>org.infinispan</groupId>
+        <artifactId>infinispan-core</artifactId>
+        <version>${version.org.infinispan}</version>
+        <optional>true</optional>
+     </dependency>
 
      <dependency>
         <groupId>junit</groupId>
