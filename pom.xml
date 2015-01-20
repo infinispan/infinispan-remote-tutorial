@@ -153,6 +153,20 @@
                     </includes>
                  </configuration>
               </execution>
+              <execution>
+                 <id>suite-rest</id>
+                 <goals>
+                    <goal>integration-test</goal>
+                 </goals>
+                 <configuration>
+                    <systemPropertyVariables>
+                       <arquillian.launch>tutorial-rest</arquillian.launch>
+                    </systemPropertyVariables>
+                    <includes>
+                       <include>**/rest/*IT.java</include>
+                    </includes>
+                 </configuration>
+              </execution>
            </executions>
         </plugin>
       </plugins>

@@ -86,6 +86,14 @@ concurrent APIs work as expected (`mvn verify` to run all integration tests)
 - Execute `mvn verify -Dit.test=RemoteListenerCustomIT` to see custom remote events in action 
 (`mvn verify` to run all integration tests)
 
+### step-7/remote-rest-http-api
+
+- Shows how to interact with the Infinispan REST Http API to store, retrieve and delete data
+- Demonstrates REST Http conditional store operations using `ETag` information
+- Includes examples on how to store ephemeral entries via REST Http API 
+- Execute `mvn verify -Dit.test=RemoteRestHttpIT` to see custom remote events in action 
+(`mvn verify` to run all integration tests)
+
 ## Application Directory Layout
 
     src/                -->
