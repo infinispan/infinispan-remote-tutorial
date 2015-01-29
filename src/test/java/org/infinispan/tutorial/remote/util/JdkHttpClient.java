@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URI;
@@ -56,7 +58,7 @@ public class JdkHttpClient {
    public static Map<String, ?> get(final URI uri, final Map<String, ?> params) {
       return withHttp(uri, "GET", params, new HttpCallable<Map<String, ?>>() {
          @Override
-         public Map<String, ?> call(HttpURLConnection httpcon) throws IOException {
+         public Map<String, ?> call(HttpURLConnection httpcon) throws Exception {
             // 4xx: client error, 5xx: server error. See: http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html.
             boolean isError = httpcon.getResponseCode() >= 400;
             // The normal input stream doesn't work in error-cases.
@@ -86,6 +88,9 @@ public class JdkHttpClient {
                      byte[] bytes = new byte[length];
                      is.read(bytes);
                      return getRsp(uri, httpcon, bytes);
+                  case "application/x-java-serialized-object":
+                     ObjectInputStream ois = new ObjectInputStream(is);
+                     return getRsp(uri, httpcon, ois.readObject());
                   default:
                      throw new IllegalStateException("Unsupported content type");
                }
@@ -109,7 +114,11 @@ public class JdkHttpClient {
                httpcon.getOutputStream().write((byte[]) body);
                return putRsp(uri, httpcon);
             } else {
-               throw new IllegalStateException("Unsupported");
+               try (ObjectOutputStream oos = new ObjectOutputStream(httpcon.getOutputStream())) {
+                  oos.writeObject(body);
+                  oos.flush();
+               }
+               return putRsp(uri, httpcon);
             }
          }
       });
@@ -131,7 +140,7 @@ public class JdkHttpClient {
          httpcon = httpcon(uri, method, params);
          httpcon.connect();
          return callable.call(httpcon);
-      } catch (IOException e) {
+      } catch (Exception e) {
          throw new AssertionError(e);
       } finally {
          if (httpcon != null) httpcon.disconnect();
@@ -182,7 +191,7 @@ public class JdkHttpClient {
    }
 
    private interface HttpCallable<V> {
-      V call(HttpURLConnection httpcon) throws IOException;
+      V call(HttpURLConnection httpcon) throws Exception;
    }
 
    public static class Keys {

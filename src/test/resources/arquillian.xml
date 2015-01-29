@@ -30,4 +30,15 @@
       </container>
    </group>
 
+   <group qualifier="tutorial-compatibility">
+      <container qualifier="container-compatibility" mode="suite">
+         <configuration>
+            <property name="jbossHome">${server1.dist}</property>
+            <property name="managementPort">9990</property>
+            <property name="serverConfig">../../docs/examples/configs/standalone-compatibility-mode.xml</property>
+            <property name="javaVmArguments">-Djava.net.preferIPv4Stack=true -Djboss.node.name=node1</property>
+         </configuration>
+      </container>
+   </group>
+
 </arquillian>

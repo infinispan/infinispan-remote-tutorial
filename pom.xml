@@ -167,6 +167,20 @@
                     </includes>
                  </configuration>
               </execution>
+              <execution>
+                 <id>suite-compatibility</id>
+                 <goals>
+                    <goal>integration-test</goal>
+                 </goals>
+                 <configuration>
+                    <systemPropertyVariables>
+                       <arquillian.launch>tutorial-compatibility</arquillian.launch>
+                    </systemPropertyVariables>
+                    <includes>
+                       <include>**/compatibility/*IT.java</include>
+                    </includes>
+                 </configuration>
+              </execution>
            </executions>
         </plugin>
       </plugins>

@@ -94,6 +94,20 @@ concurrent APIs work as expected (`mvn verify` to run all integration tests)
 - Execute `mvn verify -Dit.test=RemoteRestHttpIT` to see custom remote events in action 
 (`mvn verify` to run all integration tests)
 
+### step-8/remote-compatibility
+
+- Demonstrates Infinispan's compatibility mode where data can be stored and 
+retrieved using different remote endpoints.
+- In this tutorial, interaction between REST and RemoteCache (Hot Rod protocol) 
+endpoints is shown via a simple application that stores simplified stock market.
+- Data stored via RemoteCache can be retrieved via REST and vice-versa.
+- In order for compatibility to work, stored data needs to be transformed from
+one endpoints' format to the other's. This is why this tutorial adds an Arquillian
+extension in order to install/uninstall a module containing the classes representing 
+the stored data.
+- Execute `mvn verify -Dit.test=RemoteCompatibilityIT` to see remote compatibility 
+mode in action (`mvn verify` to run all integration tests)
+
 ## Application Directory Layout
 
     src/                -->
